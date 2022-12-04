@@ -39,6 +39,35 @@ function plot(model::AbstractSIRVModel{T}; endtime::T=365.0, Δt::T=1.0, u0::Vec
     return fig
 end
 
+function plot_phase_diagram(model::AbstractSIRVModel{T}; endtime::T = 1000.0, Ttr::T = 1000.0, u0::Vector{T} = rand(T, 4)) where {T}
+    # Initial conditions
+    u0 /= sum(u0)  # Normalise so that S + I + R + V = 1
+    @printf "Initial conditions: S(0) = %.2f, I(0) = %.2f, R(0) = %.2f, V(0) = %.2f" u0[1] u0[2] u0[3] u0[4]
+
+    # Integration parameters
+    cb = PositiveDomain(zeros(T, 4), abstol = 1e-21)  # Callback to ensure the solution remains positive
+
+    # Transient integration
+    tol = 1e-15
+    prob_transient = ODEProblem(model, u0, (zero(T), Ttr))
+    sol_transient = solve(prob_transient, Vern9(), abstol = tol, reltol = tol, callback = cb)
+
+    # Actual integration
+    u1 = sol_transient[end]
+    prob = ODEProblem(model, u1, (zero(T), endtime))
+    sol = solve(prob, Vern9(), saveat = 1.0, abstol = tol, reltol = tol, callback = cb)
+
+    # Plotting
+    S = sol[1, :]
+    I = sol[2, :]
+    fig = Figure(resolution = (1200, 600))
+    ax1 = Axis(fig[1, 1], xlabel = "day", ylabel = "-log(I)")
+    ax2 = Axis(fig[1, 2], xlabel = "-log(S)", ylabel = "-log(I)")
+    lines!(ax1, sol.t, -1 * log.(I), linewidth = 3)
+    lines!(ax2, -1 * log.(S), -1 * log.(I), linewidth = 3)
+    return fig
+end
+
 function plot_trajectory_given_vax_rate(ν::T; endtime::T=365.0, Δt::T=1.0, u0::Vector{T}=rand(T, 4)) where {T<:AbstractFloat}
     model = SIRV(ν)
     fig = plot(model; endtime, Δt, u0)
