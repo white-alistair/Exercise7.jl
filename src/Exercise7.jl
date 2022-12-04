@@ -1,5 +1,5 @@
 module Exercise7 
-    export SIRV, plot
+    export SIR, SIRV, plot
 
     using DynamicalSystems, CairoMakie, Printf
 

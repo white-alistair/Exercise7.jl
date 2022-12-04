@@ -1,3 +1,19 @@
+struct SIR{T<:AbstractFloat}
+    β::T
+    γ::T
+end
+
+function (model::SIR)(du, u, p, t)
+    S, I, R = u
+    (; β, γ) = model
+        
+    du[1] = -β * S * I
+    du[2] = β * S * I - γ * I
+    du[3] = γ * I
+
+    return nothing
+end
+
 struct SIRV{T<:AbstractFloat}
     β::T
     γ::T
