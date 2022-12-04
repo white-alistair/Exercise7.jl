@@ -69,14 +69,14 @@ function (model::SIRV)(du, u, p, t)
     return nothing
 end
 
-struct SIRVSeasonal{T} <: AbstractSIRVModel{T}
+struct SIRVSeasonalContact{T} <: AbstractSIRVModel{T}
     β₀::T
     β₁::T
     γ::T
     ν::T
 end
 
-function (model::SIRVSeasonal)(du, u, p, t)
+function (model::SIRVSeasonalContact)(du, u, p, t)
     S, I, R, V = u
     (; β₀, β₁, γ, ν) = model
 
@@ -105,6 +105,33 @@ end
 function (model::SIRVDecayingImmunity)(du, u, p, t)
     S, I, R, V = u
     (; β, γ, ν, α, μ) = model
+
+    du[1] = -β * S * I - ν * S + α * R + μ * V
+    du[2] = β * S * I - γ * I
+    du[3] = γ * I - α * R
+    du[4] = ν * S - μ * V
+
+    return nothing
+end
+
+struct SIRVSeasonalContactDecayingImmunity{T} <: AbstractSIRVModel{T}
+    β₀::T
+    β₁::T
+    γ::T
+    ν::T
+    α::T
+    μ::T
+end
+
+function SIRVSeasonalContactDecayingImmunity(β₁, ν, α, μ)
+    return SIRVSeasonalContactDecayingImmunity(0.35, β₁, 0.035, ν, α, μ)
+end
+
+function (model::SIRVSeasonalContactDecayingImmunity)(du, u, p, t)
+    S, I, R, V = u
+    (; β₀, β₁, γ, ν, α, μ) = model
+
+    β = β₀ * (1 + β₁ * cos(2π * t / 365))
 
     du[1] = -β * S * I - ν * S + α * R + μ * V
     du[2] = β * S * I - γ * I

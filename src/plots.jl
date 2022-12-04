@@ -29,7 +29,7 @@ function plot(model::AbstractSIRVModel{T}; endtime::T=365.0, Δt::T=1.0, u0::Vec
 
     # Plotting
     fig = Figure(resolution=(1200, 600))
-    ax = Axis(fig[1, 1], xlabel="days", title=@sprintf "SIRV Model with β = %.2f, γ = %.3f, ν = %.2f" model.β model.γ model.ν)
+    ax = Axis(fig[1, 1], xlabel="days") #, title=@sprintf "SIRV Model with β = %.2f, γ = %.3f, ν = %.2f" model.β model.γ model.ν)
     times = Δt * collect(1:length(S))
     lines!(ax, times, S, linewidth=3, label="S")
     lines!(ax, times, I, linewidth=3, label="I")
