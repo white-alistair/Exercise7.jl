@@ -1,6 +1,6 @@
 @testset "models.jl" begin
     @testset "SIR Model" begin
-        # Test constructors
+        # Constructors
         β, γ = 1.0, 2.0
         model = SIR(β, γ)
         @test model.β == β
@@ -11,7 +11,7 @@
         @test model.β == 0.35
         @test model.γ == 0.035
 
-        # Test equations
+        # Equations
         du = zeros(3)
         u = [1.0, 2.0, 3.0]
         model(du, u, nothing, nothing)
@@ -19,7 +19,7 @@
     end
 
     @testset "SIR Model with Decaying Immunity" begin
-        # Test constructors
+        # Constructors
         β, γ, α = 1.0, 2.0, 3.0
         model = SIRDecayingImmunity(β, γ, α)
         @test model.β == β
@@ -32,7 +32,7 @@
         @test model.γ == 0.035
         @test model.α == α
 
-        # Test equations
+        # Equations
         du = zeros(3)
         u = [1.0, 2.0, 3.0]
         model(du, u, nothing, nothing)
@@ -40,7 +40,7 @@
     end
 
     @testset "SIRV Model" begin
-        # Test constructors
+        # Constructors
         β, γ, ν = 1.0, 2.0, 3.0
         model = SIRV(β, γ, ν)
         @test model.β == β
@@ -53,7 +53,7 @@
         @test model.γ == 0.035
         @test model.ν == ν
 
-        # Test equations
+        # Equations
         du = zeros(4)
         u = [1.0, 2.0, 3.0, 4.0]
         model(du, u, nothing, nothing)
@@ -61,7 +61,7 @@
     end
 
     @testset "SIRV Model with Seasonal Contact" begin
-        # Test constructors
+        # Constructors
         β₀, β₁, γ, ν = 1.0, 2.0, 3.0, 4.0
         model = SIRVSeasonalContact(β₀, β₁, γ, ν)
         @test model.β₀ == β₀
@@ -76,7 +76,7 @@
         @test model.γ == 0.035
         @test model.ν == 2.0
 
-        # Test equations
+        # Equations
         du = zeros(4)
         u = [1.0, 2.0, 3.0, 4.0]
         model(du, u, nothing, 0.0)
@@ -84,7 +84,7 @@
     end
 
     @testset "SIRV Model with Decaying Immunity" begin
-        # Test constructors
+        # Constructors
         β, γ, ν, α, μ = 1.0, 2.0, 3.0, 4.0, 5.0
         model = SIRVDecayingImmunity(β, γ, ν, α, μ)
         @test model.β == β
@@ -101,7 +101,7 @@
         @test model.α == α
         @test model.μ == μ
 
-        # Test equations
+        # Equations
         du = zeros(4)
         u = [1.0, 2.0, 3.0, 4.0]
         model(du, u, nothing, nothing)
@@ -109,7 +109,7 @@
     end
 
     @testset "SIRV Model with Seasonal Contact and Decaying Immunity" begin
-        # Test constructors
+        # Constructors
         β₀, β₁, γ, ν, α, μ = 1.0, 2.0, 3.0, 4.0, 5.0, 6.0
         model = SIRVSeasonalContactDecayingImmunity(β₀, β₁, γ, ν, α, μ)
         @test model.β₀ == β₀
@@ -128,7 +128,7 @@
         @test model.α == α
         @test model.μ == μ
 
-        # Test equations
+        # Equations
         du = zeros(4)
         u = [1.0, 2.0, 3.0, 4.0]
         model(du, u, nothing, 0.0)
