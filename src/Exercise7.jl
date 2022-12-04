@@ -1,5 +1,5 @@
 module Exercise7 
-    export SIR, SIRV, plot
+    export SIR, SIRV, SIRVSeasonal, SIRVDecayingImmunity, plot
 
     using DynamicalSystems, CairoMakie, Printf
 
