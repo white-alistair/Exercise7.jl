@@ -23,6 +23,27 @@ function (model::SIR)(du, u, p, t)
     return nothing
 end
 
+struct SIRDecayingImmunity{T} <: AbstractSIRModel{T}
+    β::T
+    γ::T
+    α::T
+end
+
+function SIRDecayingImmunity(α)
+    return SIRDecayingImmunity(0.35, 0.035, α)
+end
+
+function (model::SIRDecayingImmunity)(du, u, p, t)
+    S, I, R = u
+    (; β, γ, α) = model
+
+    du[1] = -β * S * I + α * R
+    du[2] = β * S * I - γ * I
+    du[3] = γ * I - α * R
+
+    return nothing
+end
+
 # SIRV Models
 abstract type AbstractSIRVModel{T} <: AbstractCompartmentalModel{T} end
 
@@ -77,10 +98,14 @@ struct SIRVDecayingImmunity{T} <: AbstractSIRVModel{T}
     μ::T
 end
 
+function SIRVDecayingImmunity(ν, α, μ)
+    return SIRVDecayingImmunity(0.35, 0.035, ν, α, μ)
+end
+
 function (model::SIRVDecayingImmunity)(du, u, p, t)
     S, I, R, V = u
     (; β, γ, ν, α, μ) = model
-        
+
     du[1] = -β * S * I - ν * S + α * R + μ * V
     du[2] = β * S * I - γ * I
     du[3] = γ * I - α * R
