@@ -1,9 +1,9 @@
-abstract type CompartmentalModel{T<:AbstractFloat} end
+abstract type AbstractCompartmentalModel{T<:AbstractFloat} end
 
 # SIR Models
-abstract type SIRModel{T} <: CompartmentalModel{T} end
+abstract type AbstractSIRModel{T} <: AbstractCompartmentalModel{T} end
 
-struct SIR{T} <: SIRModel{T}
+struct SIR{T} <: AbstractSIRModel{T}
     β::T
     γ::T
 end
@@ -24,9 +24,9 @@ function (model::SIR)(du, u, p, t)
 end
 
 # SIRV Models
-abstract type SIRVModel{T} <: CompartmentalModel{T} end
+abstract type AbstractSIRVModel{T} <: AbstractCompartmentalModel{T} end
 
-struct SIRV{T} <: SIRVModel{T}
+struct SIRV{T} <: AbstractSIRVModel{T}
     β::T
     γ::T
     ν::T
@@ -44,7 +44,7 @@ function (model::SIRV)(du, u, p, t)
     return nothing
 end
 
-struct SIRVSeasonal{T} <: SIRVModel{T}
+struct SIRVSeasonal{T} <: AbstractSIRVModel{T}
     β₀::T
     β₁::T
     γ::T
