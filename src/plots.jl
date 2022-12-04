@@ -18,7 +18,7 @@ function plot(model::SIRModel{T}; endtime::T = 365.0, Δt::T = 1.0, u0 = rand(T,
     return fig
 end
 
-function plot(model::SIRVModel{T}; endtime::T = 100.0, Δt::T = 1.0, u0 = rand(T, 4)) where {T<:AbstractFloat}
+function plot(model::SIRVModel{T}; endtime::T = 365.0, Δt::T = 1.0, u0 = rand(T, 4)) where {T<:AbstractFloat}
     u0 /= sum(u0)  # Normalise so that S + I + R + V = 1
     ds = ContinuousDynamicalSystem(model, u0, nothing)
     tr = trajectory(ds, endtime; Δt)
