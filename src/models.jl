@@ -5,6 +5,10 @@ struct SIR{T} <: CompartmentalModel{T}
     γ::T
 end
 
+function SIR()
+    return SIR(0.35, 0.035)
+end
+
 function (model::SIR)(du, u, p, t)
     S, I, R = u
     (; β, γ) = model
