@@ -32,6 +32,10 @@ struct SIRV{T} <: AbstractSIRVModel{T}
     ν::T
 end
 
+function SIRV(ν)
+    return SIRV(0.35, 0.035, ν)
+end
+
 function (model::SIRV)(du, u, p, t)
     S, I, R, V = u
     (; β, γ, ν) = model
