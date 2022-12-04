@@ -64,3 +64,23 @@ function (model::SIRVSeasonal)(du, u, p, t)
 
     return nothing
 end
+
+struct SIRVDecayingImmunity{T} <: AbstractSIRVModel{T}
+    β::T
+    γ::T
+    ν::T
+    α::T
+    μ::T
+end
+
+function (model::SIRVDecayingImmunity)(du, u, p, t)
+    S, I, R, V = u
+    (; β, γ, ν, α, μ) = model
+        
+    du[1] = -β * S * I - ν * S + α * R + μ * V
+    du[2] = β * S * I - γ * I
+    du[3] = γ * I - α * R
+    du[4] = ν * S - μ * V
+
+    return nothing
+end
