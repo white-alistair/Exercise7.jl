@@ -76,6 +76,10 @@ struct SIRVSeasonalContact{T} <: AbstractSIRVModel{T}
     ν::T
 end
 
+function SIRVSeasonalContact(β₁, ν)
+    return SIRVSeasonalContact(0.35, β₁, 0.035, ν)
+end
+
 function (model::SIRVSeasonalContact)(du, u, p, t)
     S, I, R, V = u
     (; β₀, β₁, γ, ν) = model
