@@ -14,8 +14,8 @@ function plot(model::SIR{T}; endtime::T = 365.0, Δt::T = 1.0, u0 = rand(T, 3)) 
     lines!(ax, times, S, linewidth=3, label="S")
     lines!(ax, times, I, linewidth=3, label="I")
     lines!(ax, times, R, linewidth=3, label="R")
-    axislegend()
-    fig
+    axislegend(ax)
+    return fig
 end
 
 function plot(model::SIRV{T}; endtime::T = 100.0, Δt::T = 1.0, u0 = rand(T, 4)) where {T<:AbstractFloat}
@@ -35,6 +35,6 @@ function plot(model::SIRV{T}; endtime::T = 100.0, Δt::T = 1.0, u0 = rand(T, 4))
     lines!(ax, times, I, linewidth=3, label="I")
     lines!(ax, times, R, linewidth=3, label="R")
     lines!(ax, times, V, linewidth=3, label="V")
-    axislegend()
-    fig
+    axislegend(ax)
+    return fig
 end
