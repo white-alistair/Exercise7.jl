@@ -1,4 +1,6 @@
-struct SIR{T<:AbstractFloat}
+abstract type CompartmentalModel{T<:AbstractFloat} end
+
+struct SIR{T} <: CompartmentalModel{T}
     β::T
     γ::T
 end
@@ -14,7 +16,7 @@ function (model::SIR)(du, u, p, t)
     return nothing
 end
 
-struct SIRV{T<:AbstractFloat}
+struct SIRV{T} <: CompartmentalModel{T}
     β::T
     γ::T
     ν::T
