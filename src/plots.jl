@@ -24,8 +24,8 @@ function plot(model::AbstractSIRVModel{T}; endtime::T = 365.0, Δt::T = 1.0, u0:
     tr = trajectory(ds, endtime; Δt)
     S, I, R, V = columns(tr)
 
-    @printf "Initial conditions: S(0) = %4i, I(0) = %4i, R(0) = %4i, V(0) = %4i\n" u0[1] u0[2] u0[3] u0[4]
-    @printf "Final state:        S(T) = %4i, I(T) = %4i, R(T) = %4i, V(T) = %4i" S[end] I[end] R[end] V[end]
+    @printf "Initial conditions: S(0) = %.2f, I(0) = %.2f, R(0) = %.2f, V(0) = %.2f\n" u0[1] u0[2] u0[3] u0[4]
+    @printf "Final state:        S(T) = %.2f, I(T) = %.2f, R(T) = %.2f, V(T) = %.2f" S[end] I[end] R[end] V[end]
 
     # Plotting
     fig = Figure(resolution=(1200, 600))
