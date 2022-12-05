@@ -32,7 +32,7 @@ end
 function Base.show(io::IO, model::SIRV)
     println(
         io,
-        @sprintf "SIRV Model with β = %.2f, γ = %.2f, ν = %.2f" model.β model.γ model.ν
+        @sprintf "SIRV Model with β = %.2f, γ = %.3f, ν = %.3f" model.β model.γ model.ν
     )
 end
 
@@ -98,7 +98,7 @@ end
 function Base.show(io::IO, model::SIRVSeasonalContact)
     return println(
         io,
-        @sprintf "SIRVSeasonalContact Model with β₀ = %.2f, β₁ = %.2f, γ = %.2f, ν = %.2f" model.β₀ model.β₁ model.γ model.ν
+        @sprintf "SIRVSeasonalContact Model with β₀ = %.2f, β₁ = %.2f, γ = %.3f, ν = %.3f" model.β₀ model.β₁ model.γ model.ν
     )
 end
 
@@ -162,7 +162,7 @@ end
 function Base.show(io::IO, model::SIRVDecayingImmunity)
     println(
         io,
-        @sprintf "SIRVDecayingImmunity Model with β = %.2f, γ = %.2f, ν = %.2f, α = %.2f, μ = %.2f" model.β model.γ model.ν model.α model.μ
+        @sprintf "SIRVDecayingImmunity Model with β = %.2f, γ = %.3f, ν = %.3f, α = %.3f, μ = %.3f" model.β model.γ model.ν model.α model.μ
     )
 end
 
@@ -232,7 +232,7 @@ end
 function Base.show(io::IO, model::SIRVSeasonalContactDecayingImmunity)
     println(
         io,
-        @sprintf "SIRVSeasonalContactDecayingImmunity Model with β₀ = %.2f, β₁ = %.2f, γ = %.2f, ν = %.2f, α = %.2f, μ = %.2f" model.β₀ model.β₁ model.γ model.ν model.α model.μ
+        @sprintf "SIRVSeasonalContactDecayingImmunity Model with β₀ = %.2f, β₁ = %.2f, γ = %.3f, ν = %.3f, α = %.3f, μ = %.3f" model.β₀ model.β₁ model.γ model.ν model.α model.μ
     )
 end
 
