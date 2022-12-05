@@ -37,5 +37,5 @@
         u = [1.0, 2.0, 3.0]
         model(du, u, nothing, nothing)
         @test du ≈ [8.3, 0.63, -8.93]
-    end 
+    end
 end
