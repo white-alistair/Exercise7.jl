@@ -61,7 +61,7 @@ function plot_phase_diagram(
     @printf "Initial conditions: S(0) = %.2f, I(0) = %.2f, R(0) = %.2f, V(0) = %.2f" u0[1] u0[2] u0[3] u0[4]
 
     # Integration parameters
-    cb = PositiveDomain(zeros(T, 4); abstol = 1e-18)  # Callback to ensure the solution remains positive
+    cb = PositiveDomain(zeros(T, 4); abstol = eps(T))  # Callback to ensure the solution remains positive
 
     # Transient integration
     prob_transient = ODEProblem(model, u0, (zero(T), Ttr))
@@ -76,7 +76,14 @@ function plot_phase_diagram(
     # Actual integration
     u1 = sol_transient[end]
     prob = ODEProblem(model, u1, (zero(T), endtime))
-    sol = solve(prob, Vern9(); saveat = 1.0, abstol = tolerance, reltol = tolerance) #, callback = cb)
+    sol = solve(
+        prob,
+        Vern9();
+        saveat = 1.0,
+        abstol = tolerance,
+        reltol = tolerance,
+        callback = cb,
+    )
 
     # Plotting
     S = sol[1, :]
