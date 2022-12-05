@@ -15,7 +15,7 @@ function plot(
     # Plotting
     fig = Figure(; resolution = (1200, 600))
     ax = Axis(fig[1, 1]; xlabel = "days", title = repr(model))
-    times = Δt * 1:length(S)
+    times = Δt*1:length(S)
     lines!(ax, times, S; linewidth = 3, label = "S")
     lines!(ax, times, I; linewidth = 3, label = "I")
     lines!(ax, times, R; linewidth = 3, label = "R")
@@ -40,7 +40,7 @@ function plot(
     # Plotting
     fig = Figure(; resolution = (1200, 600))
     ax = Axis(fig[1, 1]; xlabel = "days", title = repr(model))
-    times = Δt * 1:length(S)
+    times = Δt*1:length(S)
     lines!(ax, times, S; linewidth = 3, label = "S")
     lines!(ax, times, I; linewidth = 3, label = "I")
     lines!(ax, times, R; linewidth = 3, label = "R")
@@ -101,7 +101,15 @@ function plot_total_infections_by_vax_rate(
     end
 
     fig = Figure()
-    ax = Axis(fig[1, 1]; xlabel = "Vaccination Rate", ylabel = "Total Infections")
+    ax = Axis(
+        fig[1, 1];
+        xlabel = "Vaccination Rate",
+        xticks = ν_range[1]:0.1:ν_range[end],
+        xminorticks = IntervalsBetween(10),
+        xminorgridvisible = true,
+        ylabel = "Total Infections Before Extinction",
+        title = "SIRV Model with u0 = $u0"
+    )
     scatter!(ax, ν_range, total_infections)
     return fig
 end
