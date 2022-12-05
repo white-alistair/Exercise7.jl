@@ -51,8 +51,8 @@ end
 
 function plot_phase_diagram(
     model::AbstractSIRVModel{T};
-    endtime::T = 1000.0,
-    Ttr::T = 1000.0,
+    endtime::T = 365.0,
+    Ttr::T = 365.0,
     u0::Vector{T} = rand(4),
     tolerance::T = 1e-15,
 ) where {T}
@@ -75,7 +75,7 @@ function plot_phase_diagram(
 
     # Actual integration
     u1 = sol_transient[end]
-    prob = ODEProblem(model, u1, (zero(T), endtime))
+    prob = ODEProblem(model, u1, (Ttr, Ttr + endtime))
     sol = solve(
         prob,
         Vern9();
