@@ -27,6 +27,10 @@ struct SIR{T} <: AbstractSIRModel{T}
     γ::T
 end
 
+function Base.show(io::IO, model::SIR)
+    println(io, @sprintf "SIR Model with β = %.2f, γ = %.2f" model.β model.γ)
+end
+
 @doc raw"""
     SIR() -> SIR
 
@@ -74,6 +78,13 @@ struct SIRDecayingImmunity{T} <: AbstractSIRModel{T}
     β::T
     γ::T
     α::T
+end
+
+function Base.show(io::IO, model::SIRDecayingImmunity)
+    println(
+        io,
+        @sprintf "SIRDecayingImmunity Model with β = %.2f, γ = %.2f, α = %.2f" model.β model.γ model.α
+    )
 end
 
 @doc raw""" 

@@ -14,9 +14,8 @@ function plot(
 
     # Plotting
     fig = Figure(; resolution = (1200, 600))
-    title = @sprintf "SIR Model with β = %.2f, γ = %.3f" model.β model.γ
-    ax = Axis(fig[1, 1]; xlabel = "days", title = title) #, title=@sprintf "SIR Model with β = %.2f, γ = %.3f" model.β model.γ)
-    times = Δt * collect(1:length(S))
+    ax = Axis(fig[1, 1]; xlabel = "days", title = repr(model))
+    times = Δt * 1:length(S)
     lines!(ax, times, S; linewidth = 3, label = "S")
     lines!(ax, times, I; linewidth = 3, label = "I")
     lines!(ax, times, R; linewidth = 3, label = "R")
@@ -40,9 +39,8 @@ function plot(
 
     # Plotting
     fig = Figure(; resolution = (1200, 600))
-    title = @sprintf "SIRV Model with β = %.2f, γ = %.3f, ν = %.2f" model.β model.γ model.ν
-    ax = Axis(fig[1, 1]; xlabel = "days", title = title)
-    times = Δt * collect(1:length(S))
+    ax = Axis(fig[1, 1]; xlabel = "days", title = repr(model))
+    times = Δt * 1:length(S)
     lines!(ax, times, S; linewidth = 3, label = "S")
     lines!(ax, times, I; linewidth = 3, label = "I")
     lines!(ax, times, R; linewidth = 3, label = "R")

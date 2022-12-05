@@ -29,6 +29,13 @@ struct SIRV{T} <: AbstractSIRVModel{T}
     ν::T
 end
 
+function Base.show(io::IO, model::SIRV)
+    println(
+        io,
+        @sprintf "SIRV Model with β = %.2f, γ = %.2f, ν = %.2f" model.β model.γ model.ν
+    )
+end
+
 @doc raw""" 
     SIRV(ν) -> SIRV
 
@@ -47,7 +54,7 @@ Update the derivates `du` given a model of type `SIRV`.
 function (model::SIRV)(du, u, p, t)
     S, I, R, V = u
     (; β, γ, ν) = model
-        
+
     du[1] = -β * S * I - ν * S
     du[2] = β * S * I - γ * I
     du[3] = γ * I
@@ -88,6 +95,13 @@ struct SIRVSeasonalContact{T} <: AbstractSIRVModel{T}
     ν::T
 end
 
+function Base.show(io::IO, model::SIRVSeasonalContact)
+    return println(
+        io,
+        @sprintf "SIRVSeasonalContact Model with β₀ = %.2f, β₁ = %.2f, γ = %.2f, ν = %.2f" model.β₀ model.β₁ model.γ model.ν
+    )
+end
+
 @doc raw""" 
     SIRVSeasonalContact(β₁, ν) -> SIRVSeasonalContact
 
@@ -109,7 +123,7 @@ function (model::SIRVSeasonalContact)(du, u, p, t)
     (; β₀, β₁, γ, ν) = model
 
     β = β₀ * (1 + β₁ * cos(2π * t / 365))
-        
+
     du[1] = -β * S * I - ν * S
     du[2] = β * S * I - γ * I
     du[3] = γ * I
@@ -143,6 +157,13 @@ struct SIRVDecayingImmunity{T} <: AbstractSIRVModel{T}
     ν::T
     α::T
     μ::T
+end
+
+function Base.show(io::IO, model::SIRVDecayingImmunity)
+    println(
+        io,
+        @sprintf "SIRVDecayingImmunity Model with β = %.2f, γ = %.2f, ν = %.2f, α = %.2f, μ = %.2f" model.β model.γ model.ν model.α model.μ
+    )
 end
 
 @doc raw""" 
@@ -207,6 +228,14 @@ struct SIRVSeasonalContactDecayingImmunity{T} <: AbstractSIRVModel{T}
     α::T
     μ::T
 end
+
+function Base.show(io::IO, model::SIRVSeasonalContactDecayingImmunity)
+    println(
+        io,
+        @sprintf "SIRVSeasonalContactDecayingImmunity Model with β₀ = %.2f, β₁ = %.2f, γ = %.2f, ν = %.2f, α = %.2f, μ = %.2f" model.β₀ model.β₁ model.γ model.ν model.α model.μ
+    )
+end
+
 
 @doc raw""" 
     SIRVSeasonalContactDecayingImmunity(β₁, ν, α, μ) -> SIRVSeasonalContactDecayingImmunity
