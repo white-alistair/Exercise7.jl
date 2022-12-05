@@ -84,17 +84,6 @@ function plot_phase_diagram(
     return fig
 end
 
-function plot_trajectory_given_vax_rate(
-    ν::T;
-    endtime::T = 365.0,
-    Δt::T = 1.0,
-    u0::Vector{T} = rand(T, 4),
-) where {T<:AbstractFloat}
-    model = SIRV(ν)
-    fig = plot(model; endtime, Δt, u0)
-    return fig
-end
-
 function plot_total_infections_by_vax_rate(
     ν_range::AbstractVector{T};
     endtime::T = 365.0,
