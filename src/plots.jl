@@ -53,25 +53,30 @@ function plot_phase_diagram(
     model::AbstractSIRVModel{T};
     endtime::T = 1000.0,
     Ttr::T = 1000.0,
-    u0::Vector{T} = rand(T, 4),
+    u0::Vector{T} = rand(4),
+    tolerance::T = 1e-15,
 ) where {T}
     # Initial conditions
     u0 /= sum(u0)  # Normalise so that S + I + R + V = 1
     @printf "Initial conditions: S(0) = %.2f, I(0) = %.2f, R(0) = %.2f, V(0) = %.2f" u0[1] u0[2] u0[3] u0[4]
 
     # Integration parameters
-    cb = PositiveDomain(zeros(T, 4); abstol = 1e-21)  # Callback to ensure the solution remains positive
+    cb = PositiveDomain(zeros(T, 4); abstol = 1e-18)  # Callback to ensure the solution remains positive
 
     # Transient integration
-    tol = 1e-15
     prob_transient = ODEProblem(model, u0, (zero(T), Ttr))
-    sol_transient =
-        solve(prob_transient, Vern9(); abstol = tol, reltol = tol, callback = cb)
+    sol_transient = solve(
+        prob_transient,
+        Vern9();
+        abstol = tolerance,
+        reltol = tolerance,
+        callback = cb,
+    )
 
     # Actual integration
     u1 = sol_transient[end]
     prob = ODEProblem(model, u1, (zero(T), endtime))
-    sol = solve(prob, Vern9(); saveat = 1.0, abstol = tol, reltol = tol, callback = cb)
+    sol = solve(prob, Vern9(); saveat = 1.0, abstol = tolerance, reltol = tolerance) #, callback = cb)
 
     # Plotting
     S = sol[1, :]
@@ -108,7 +113,7 @@ function plot_total_infections_by_vax_rate(
         xminorticks = IntervalsBetween(10),
         xminorgridvisible = true,
         ylabel = "Total Infections Before Extinction",
-        title = "SIRV Model with u0 = $u0"
+        title = "SIRV Model with u0 = $u0",
     )
     scatter!(ax, ν_range, total_infections)
     return fig
