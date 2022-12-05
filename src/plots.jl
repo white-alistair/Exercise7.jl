@@ -60,8 +60,8 @@ function plot_phase_diagram(
     u0 /= sum(u0)  # Normalise so that S + I + R + V = 1
     @printf "Initial conditions: S(0) = %.2f, I(0) = %.2f, R(0) = %.2f, V(0) = %.2f" u0[1] u0[2] u0[3] u0[4]
 
-    # Integration parameters
-    cb = PositiveDomain(zeros(T, 4); abstol = eps(T))  # Callback to ensure the solution remains positive
+    # Set up a callback to ensure the solution remains positive at all times
+    cb = PositiveDomain(zeros(T, 4); abstol = eps(T))
 
     # Transient integration
     prob_transient = ODEProblem(model, u0, (zero(T), Ttr))
